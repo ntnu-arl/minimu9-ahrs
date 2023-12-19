@@ -162,7 +162,7 @@ void fuse_default(quaternion & rotation, float dt, const vector & angular_veloci
 
 void ahrs(imu & imu, fuse_function * fuse, rotation_output_function * output)
 {
-  imu.load_calibration();
+  // imu.load_calibration();
   imu.enable();
   imu.measure_offsets();
 
@@ -215,7 +215,9 @@ int main_with_exceptions(int argc, char **argv)
 
   // Decide what sensors we want to use.
   sensor_set set;
-  set.mag = set.acc = set.gyro = true;
+  // set.mag = set.acc = set.gyro = true;
+  set.mag = false;
+  set.acc = set.gyro = true;
 
   minimu9::comm_config config = minimu9::auto_detect(options.i2c_bus_name);
 

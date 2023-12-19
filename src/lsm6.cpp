@@ -12,6 +12,9 @@ void lsm6::handle::open(const comm_config & config)
   i2c.open(config.i2c_bus_name);
 }
 
+// Check registers from datasheet:
+//  https://www.pololu.com/file/0J1899/lsm6dso.pdf
+
 void lsm6::handle::enable()
 {
   if (config.device == LSM6DS33 || config.device == LSM6DSO)

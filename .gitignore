@@ -1,5 +1,6 @@
 /minimu9-ahrs
 /minimu9-rpi-ahrs
+/build
 *.d
 *.o
 *~
