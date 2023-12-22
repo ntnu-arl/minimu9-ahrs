@@ -1,42 +1,41 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 2.8.3)
+project(minimu9-ahrs)
 
-project(minimu9)
+find_package(catkin REQUIRED COMPONENTS
+  message_runtime
+  roscpp
+  rospy
+  sensor_msgs
+  std_msgs
+  tf
+)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-# Use the Eigen library.
 find_package(Eigen3 REQUIRED)
-include_directories(${EIGEN3_INCLUDE_DIRS})
+catkin_package(
+)
 
-# Use boost libraries
-find_package(Boost COMPONENTS program_options REQUIRED)
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+)
 
-# Put debugging info in there so we can get stack traces.
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -rdynamic -O0")
+add_compile_options(-std=c++11)
 
-# Generate .d files with dependency info
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -MD -MP")
+include_directories(include ${EIGEN3_INCLUDE_DIR} 
+    include/minimu9-ahrs 
+    src/minimu9-ahrs 
+    ${catkin_INCLUDE_DIRS}
+)
 
-# Source files
-file(GLOB_RECURSE SOURCES "src/*.cpp")
-file(GLOB_RECURSE HEADERS "include/*.h")
-
-# Target
-add_executable(minimu9 ${SOURCES} ${HEADERS})
-
-# Include directories
-target_include_directories(minimu9 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-# Link libraries
-target_link_libraries(minimu9 Boost::program_options)
-
-# Installation
-install(TARGETS minimu9 DESTINATION bin)
-
-# Generate .h.gch files
-foreach(HEADER ${HEADERS})
-    get_filename_component(HEADER_NAME ${HEADER} NAME)
-    set_source_files_properties(${HEADER} PROPERTIES OBJECT_DEPENDS ${HEADER})
-endforeach()
+add_executable( minimu9-ahrs-ros 
+  src/i2c_bus.cpp
+  src/l3g.cpp
+  src/lis3mdl.cpp
+  src/lsm303.cpp
+  src/lsm6.cpp
+  src/main.cpp
+  src/minimu9.cpp
+)
+  
+target_link_libraries(minimu9-ahrs-ros 
+    ${catkin_LIBRARIES}
+)

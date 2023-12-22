@@ -272,7 +272,7 @@ void minimu9::handle::enable()
 void minimu9::handle::load_calibration()
 {
   wordexp_t expansion_result;
-  wordexp("~/.minimu9-ahrs-cal", &expansion_result, 0);
+  wordexp("/home/root/arl_ws/src/3rdparty/minimu9-ahrs/config/minimu9-ahrs-cal", &expansion_result, 0);
 
   std::ifstream file(expansion_result.we_wordv[0]);
   if (file.fail())
@@ -373,7 +373,8 @@ void minimu9::handle::measure_offsets()
   {
     read_gyro_raw();
     gyro_offset += vector_from_ints(&g);
-    usleep(20 * 1000);
+    // usleep(20 * 1000);
+    usleep(1 * 1000);
   }
   gyro_offset /= sampleCount;
 }

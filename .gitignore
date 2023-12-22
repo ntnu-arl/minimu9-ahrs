@@ -12,3 +12,4 @@
 *.includes
 *.autosave
 /docs
+/.vscode/*
